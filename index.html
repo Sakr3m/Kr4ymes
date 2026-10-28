@@ -228,11 +228,8 @@ body:has(.home) .wrap{max-width:1040px;width:100%}
 .pdot:hover,.pdot:focus-visible,.pdot.open{box-shadow:0 0 0 6px rgba(255,255,255,.4),0 2px 10px rgba(0,0,0,.5)}
 .card.c0 .pdot{left:16px}
 .card.c1 .pdot{right:16px}
-.ppop{display:none;position:absolute;top:30px;z-index:7;width:min(300px,56vw);padding:6px;background:var(--bg);border:3px solid #fff;box-shadow:0 10px 30px rgba(0,0,0,.55);cursor:default}
-.card.c0 .ppop{left:-6px}
-.card.c1 .ppop{right:-6px}
-.pdot.open .ppop{display:block}
-.ppop img{display:block;width:100%;height:auto;max-height:46vh;object-fit:contain;background:#000}
+.ppop{position:fixed;top:50%;transform:translateY(-50%);z-index:50;padding:6px;background:var(--bg);border:3px solid #fff;box-shadow:0 14px 40px rgba(0,0,0,.6);pointer-events:none;line-height:0}
+.ppop img{display:block;width:auto;height:auto;max-width:min(640px,92vw);max-height:84vh;background:#000}
 .duel.loading{visibility:hidden}
 .loadnote{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);margin:0;font-family:var(--mono);font-size:.85rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);z-index:5;pointer-events:none}
 .card.c1 .portrait.media{width:calc(74% - (var(--cut) - 10px)*.74)}
@@ -401,7 +398,7 @@ summary{cursor:pointer;padding:12px 16px;font-family:var(--display);font-weight:
   Object.keys(RAW).forEach(function(g){ RAW[g].forEach(function(t){ var p = t.split('|'); GAMES.push({title:p[0], sub:p[1], label:p[0] + ' (' + p[1] + ')', g:g}); }); });
   /* Smash or Pass: carte vere per sesso e stile (nome, gioco, file immagine su R2). Se un mazzo ha meno di 2 carte si usano i segnaposto. */
   GAMES.forEach(function(x){ if(x.g === 'c3') x.ph = true; });
-  var SMASH_DATA = {"f": {"r": [["Claire Redfield", "Resident Evil 2 Remake", "Claire Redfield RE2 Remake.png", ""], ["Claire Redfield", "Resident Evil Veronica", "Claire Redfield Veronica.png", ""], ["Ada Wong", "Resident Evil 2 Remake", "Ada Wong RE2 Remake.png", ""], ["Ada Wong", "Resident Evil 4 Remake", "Ada Wong RE4 Remake.png", ""], ["Ada Wong / Carla Radames", "Resident Evil 6", "Ada Wong RE6.png", ""], ["Annette Birkin", "Resident Evil 2 Remake", "Annette Birkin RE2 Remake2.png", ""], ["Jill Valentine", "Resident Evil 3 Remake", "Jill Valentine RE3 Remake.png", ""], ["Jill Valentine", "Resident Evil 5", "Jill Valentine RE5.png", ""], ["Ashley Graham", "Resident Evil 4 Remake", "Ashley Graham RE4 Remake.png", ""], ["Ingrid Hunnigan", "Resident Evil 4 Remake", "Ingrid Hunnigan RE4 Remake.png", ""], ["Lady (Alcina) Dimitrescu", "Resident Evil Village", "Alcina Dimitrescu RE8.png", ""], ["Bela Dimitrescu", "Resident Evil Village", "Bela Dimitrescu RE8.png", "Bela.jpg"], ["Cassandra Dimitrescu", "Resident Evil Village", "Cassandra Dimitrescu RE8.png", "Cassandra.jpg"], ["Daniela Dimitrescu", "Resident Evil Village", "Daniela Dimitrescu RE8.png", "Daniela.jpg"], ["Grace Ashcroft", "Resident Evil Requiem", "Grace Ashcroft RE9.png", ""], ["Alyssa Ashcroft", "Resident Evil Requiem", "Alyssa Ashcroft RE9.png", ""], ["Sheva Alomar", "Resident Evil 5", "Sheva Alomar RE5.png", ""], ["Excella Gionne", "Resident Evil 5", "Excella Gionne RE5.png", ""], ["Helena Harper", "Resident Evil 6", "Helena Harper RE6.png", ""], ["Sherry Birkin", "Resident Evil 6", "Sherry Birkin RE6.png", ""], ["Sherry Birkin", "Resident Evil Requiem", "Sherry Birkin RE9.png", ""], ["Maria", "Silent Hill 2 Remake", "Maria SH2 Remake.png", ""], ["Mary Shepherd-Sunderland", "Silent Hill 2 Remake", "Mary Shepherd-Sunderland SH2 Remake.png", ""], ["Tess", "The Last of Us Parte I", "Tess TLoU.png", ""], ["Marlene", "The Last of Us Parte I", "Marlene TLoU.png", ""], ["Ellie Williams", "The Last of Us Parte II", "Ellie Williams TLoU2.png", ""], ["Abby Anderson", "The Last of Us Parte II", "Abby Anderson TLoU2.png", ""], ["Dina", "The Last of Us Parte II", "Dina TLoU2.png", ""], ["Mia Winters", "Resident Evil 7 / Resident Evil Village", "Mia Winters RE8.png", ""], ["Elena Fisher", "Uncharted 4: Fine di un ladro", "Elena Fisher U4.png", ""], ["Nadine Ross", "Uncharted 4: Fine di un ladro / Uncharted: L'eredità perduta", "Nadine Ross U4.png", ""], ["Chloe Frazer", "Uncharted: L'eredità perduta", "Chloe Frazer UEP.png", ""], ["Aloy", "Horizon Zero Dawn Remastered", "Aloy HZD.png", ""], ["Aloy", "Horizon Forbidden West", "Aloy HZD FW.png", ""], ["Elisabet Sobeck", "Horizon Zero Dawn Remastered / Horizon Forbidden West", "Elisabet Sobeck HZD.png", ""], ["Talanah Khane", "Horizon Forbidden West", "Talanah Khane HZD FW.png", ""], ["Seyka", "Horizon Forbidden West", "Seyka HZD FW.png", ""], ["Lara Croft", "Tomb Raider (2013)", "Lara Croft TR2013.png", ""], ["Lara Croft", "Rise of the Tomb Raider", "Lara Croft RoTR.png", ""], ["Lara Croft", "Shadow of the Tomb Raider", "Lara Croft SoTR.png", ""], ["Lara Croft", "Tomb Raider: Legacy of Atlantis", "Lara Croft TR2026.png", ""], ["Samantha (Sam) Nishimura", "Tomb Raider (2013)", "Sam Nishimura TR2013.png", ""], ["Aya", "Assassin's Creed Origins", "Aya ACO.png", ""]], "s": [], "g": []}, "m": {"r": [], "s": [], "g": []}};
+  var SMASH_DATA = {"f": {"r": [["Claire Redfield", "Resident Evil 2 Remake", "Claire Redfield RE2 Remake.png", ""], ["Claire Redfield", "Resident Evil Veronica", "Claire Redfield Veronica.png", ""], ["Ada Wong", "Resident Evil 2 Remake", "Ada Wong RE2 Remake.png", ""], ["Ada Wong", "Resident Evil 4 Remake", "Ada Wong RE4 Remake.png", ""], ["Ada Wong / Carla Radames", "Resident Evil 6", "Ada Wong RE6.png", ""], ["Annette Birkin", "Resident Evil 2 Remake", "Annette Birkin RE2 Remake2.png", ""], ["Jill Valentine", "Resident Evil 3 Remake", "Jill Valentine RE3 Remake.png", ""], ["Jill Valentine", "Resident Evil 5", "Jill Valentine RE5.png", ""], ["Ashley Graham", "Resident Evil 4 Remake", "Ashley Graham RE4 Remake.png", ""], ["Ingrid Hunnigan", "Resident Evil 4 Remake", "Ingrid Hunnigan RE4 Remake.png", ""], ["Lady (Alcina) Dimitrescu", "Resident Evil Village", "Alcina Dimitrescu RE8.png", ""], ["Bela Dimitrescu", "Resident Evil Village", "Bela Dimitrescu RE8.png", "Bela.jpg"], ["Cassandra Dimitrescu", "Resident Evil Village", "Cassandra Dimitrescu RE8.png", "Cassandra.jpg"], ["Daniela Dimitrescu", "Resident Evil Village", "Daniela Dimitrescu RE8.png", "Daniela.jpg"], ["Grace Ashcroft", "Resident Evil Requiem", "Grace Ashcroft RE9.png", ""], ["Alyssa Ashcroft", "Resident Evil Requiem", "Alyssa Ashcroft RE9.png", ""], ["Sheva Alomar", "Resident Evil 5", "Sheva Alomar RE5.png", ""], ["Excella Gionne", "Resident Evil 5", "Excella Gionne RE5.png", ""], ["Helena Harper", "Resident Evil 6", "Helena Harper RE6.png", ""], ["Sherry Birkin", "Resident Evil 6", "Sherry Birkin RE6.png", ""], ["Sherry Birkin", "Resident Evil Requiem", "Sherry Birkin RE9.png", ""], ["Maria", "Silent Hill 2 Remake", "Maria SH2 Remake.png", ""], ["Mary Shepherd-Sunderland", "Silent Hill 2 Remake", "Mary Shepherd-Sunderland SH2 Remake.png", ""], ["Tess", "The Last of Us Parte I", "Tess TLoU.png", ""], ["Marlene", "The Last of Us Parte I", "Marlene TLoU.png", ""], ["Ellie Williams", "The Last of Us Parte II", "Ellie Williams TLoU2.png", ""], ["Abby Anderson", "The Last of Us Parte II", "Abby Anderson TLoU2.png", ""], ["Dina", "The Last of Us Parte II", "Dina TLoU2.png", ""], ["Mia Winters", "Resident Evil 7 / Resident Evil Village", "Mia Winters RE8.png", ""], ["Elena Fisher", "Uncharted 4: Fine di un ladro", "Elena Fisher U4.png", ""], ["Nadine Ross", "Uncharted 4: Fine di un ladro / Uncharted: L'eredità perduta", "Nadine Ross U4.png", ""], ["Chloe Frazer", "Uncharted: L'eredità perduta", "Chloe Frazer UEP.png", ""], ["Aloy", "Horizon Zero Dawn Remastered", "Aloy HZD.png", ""], ["Aloy", "Horizon Forbidden West", "Aloy HZD FW.png", ""], ["Elisabet Sobeck", "Horizon Zero Dawn Remastered / Horizon Forbidden West", "Elisabet Sobeck HZD.png", ""], ["Talanah Khane", "Horizon Forbidden West", "Talanah Khane HZD FW.png", ""], ["Seyka", "Horizon Forbidden West", "Seyka HZD FW.png", ""], ["Lara Croft", "Tomb Raider (2013)", "Lara Croft TR2013.png", "Lara 2013.jpg"], ["Lara Croft", "Rise of the Tomb Raider", "Lara Croft RoTR.png", ""], ["Lara Croft", "Shadow of the Tomb Raider", "Lara Croft SoTR.png", ""], ["Lara Croft", "Tomb Raider: Legacy of Atlantis", "Lara Croft TR2026.png", ""], ["Samantha (Sam) Nishimura", "Tomb Raider (2013)", "Sam Nishimura TR2013.png", ""], ["Aya", "Assassin's Creed Origins", "Aya ACO.png", ""]], "s": [], "g": []}, "m": {"r": [], "s": [], "g": []}};
   Object.keys(SMASH_DATA).forEach(function(sx){ Object.keys(SMASH_DATA[sx]).forEach(function(st){ SMASH_DATA[sx][st].forEach(function(r){
     GAMES.push({title:r[0], sub:r[1], label:r[0] + ' (' + r[1] + ')', g:'c3', sx:sx, st:st, img:r[2], pop:r[3] || ''});
   }); }); });
@@ -773,20 +770,34 @@ summary{cursor:pointer;padding:12px 16px;font-family:var(--display);font-weight:
   function portrait(id){
     return h('div', {class:'portrait' + (/^c[136]$/.test(GAMES[id].g) ? ' tall' : ''), 'data-gid':String(id), 'aria-hidden':'true'}, [h('span', {class:'mono', text:initials(GAMES[id].title)})]);
   }
-  /* Pallino esterno con popup: seconda immagine (R2) che si apre al passaggio del mouse, solo sulle carte che ne hanno una. */
+  /* Pallino esterno con popup: seconda immagine (R2) che si apre al passaggio del mouse, solo sulle carte che ne hanno una.
+     Il popup vive fuori dalla carta (fixed sul body), così non viene ritagliato e può essere ampio. */
   function popDot(id){
     var f = GAMES[id].pop; if(!f) return null;
     var url = /^https?:\/\//.test(f) ? f : R2_BASE + '/' + f.split('/').map(encodeURIComponent).join('/');
-    var im = h('img', {alt:''}); im.referrerPolicy = 'no-referrer'; im.src = url;
-    im.onerror = function(){ if(dot.parentNode) dot.parentNode.removeChild(dot); };
+    var im = h('img', {alt:''}); im.referrerPolicy = 'no-referrer';
     var pop = h('span', {class:'ppop','aria-hidden':'true'}, [im]);
-    var dot = h('span', {class:'pdot', role:'button', tabindex:'0', 'aria-label':'Mostra un\u2019altra immagine', title:'Altra immagine'}, [pop]);
-    var open = function(v){ dot.classList.toggle('open', v); };
+    var dot = h('span', {class:'pdot', role:'button', tabindex:'0', 'aria-label':'Mostra un\u2019altra immagine', title:'Altra immagine'});
+    var isOpen = false;
+    var place = function(){
+      var r = dot.getBoundingClientRect(), w = pop.offsetWidth, vw = window.innerWidth;
+      var right = !!dot.closest('.card.c1');
+      var x = right ? r.right - w + 6 : r.left - 6;
+      pop.style.left = Math.max(8, Math.min(x, vw - w - 8)) + 'px';
+    };
+    var open = function(v){
+      if(v === isOpen) return; isOpen = v;
+      dot.classList.toggle('open', v);
+      if(v){ document.body.appendChild(pop); place(); } else if(pop.parentNode){ pop.parentNode.removeChild(pop); }
+    };
+    im.onload = function(){ if(isOpen) place(); };
+    im.onerror = function(){ open(false); if(dot.parentNode) dot.parentNode.removeChild(dot); };
+    im.src = url;
     dot.addEventListener('mouseenter', function(){ open(true); });
     dot.addEventListener('mouseleave', function(){ open(false); });
     dot.addEventListener('focus', function(){ open(true); });
     dot.addEventListener('blur', function(){ open(false); });
-    ['click','keydown','mousedown'].forEach(function(ev){ dot.addEventListener(ev, function(e){ e.stopPropagation(); if(ev === 'click') open(!dot.classList.contains('open')); }); });
+    ['click','keydown','mousedown'].forEach(function(ev){ dot.addEventListener(ev, function(e){ e.stopPropagation(); if(ev === 'click') open(!isOpen); }); });
     return dot;
   }
   function mediaKind(url){
@@ -1329,6 +1340,7 @@ summary{cursor:pointer;padding:12px 16px;font-family:var(--display);font-weight:
   }
 
   function render(){
+    Array.prototype.forEach.call(document.querySelectorAll('body > .ppop'), function(x){ x.parentNode.removeChild(x); });
     var stage = document.getElementById('stage'); stage.textContent = '';
     if(screen){
       document.getElementById('lists').textContent = '';
