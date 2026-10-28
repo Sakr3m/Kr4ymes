@@ -224,7 +224,7 @@ body:has(.home) .wrap{max-width:1040px;width:100%}
 .portrait.media{height:auto;width:74%;max-width:none;aspect-ratio:16/9;top:calc(var(--pt,26px) + (100% - var(--pt,26px) - var(--pb,168px))/2);transform:translate(-50%,-50%)}
 .portrait.media .mono,.portrait.has .mono{display:none}
 .portrait.wait .mono{visibility:hidden}
-.pdot{position:absolute;top:44px;z-index:4;width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.92);box-shadow:0 0 0 4px rgba(255,255,255,.28),0 2px 8px rgba(0,0,0,.4);cursor:pointer;outline:none}
+.pdot{position:absolute;top:calc(var(--pt,26px) + (100% - var(--pt,26px) - var(--pb,168px))*.5 - 11px);z-index:4;width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.92);box-shadow:0 0 0 4px rgba(255,255,255,.28),0 2px 8px rgba(0,0,0,.4);cursor:pointer;outline:none}
 .pdot:hover,.pdot:focus-visible,.pdot.open{box-shadow:0 0 0 6px rgba(255,255,255,.4),0 2px 10px rgba(0,0,0,.5)}
 .card.c0 .pdot{left:16px}
 .card.c1 .pdot{right:16px}
@@ -239,7 +239,7 @@ body:has(.home) .wrap{max-width:1040px;width:100%}
 .portrait iframe,.portrait video{position:absolute;inset:0;width:100%;height:100%;border:0;display:block;background:#000}
 .portrait img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block}
 .portrait.tall img{object-position:top center}
-.duel.compact .portrait{--pt:22px;--pb:120px}
+.duel.compact .portrait,.duel.compact .pdot{--pt:22px;--pb:120px}
 .duel.compact .portrait .mono{font-size:2.4rem}
 
 /* Due giocatori */
@@ -324,6 +324,7 @@ summary{cursor:pointer;padding:12px 16px;font-family:var(--display);font-weight:
   .duel{grid-template-columns:1fr}
   .card{min-height:310px}
   .portrait,.card.c0 .portrait,.card.c1 .portrait{--pt:24px;left:50%;--pb:130px}
+  .pdot{--pt:24px;--pb:130px}
   .card.c0{clip-path:polygon(0 0,100% 0,100% calc(100% - var(--cut)),0 100%);padding-right:28px;padding-bottom:calc(var(--cut) + 14px)}
   .card.c1{clip-path:polygon(0 var(--cut),100% 0,100% 100%,0 100%);margin-left:0;margin-top:calc(var(--cut) * -1 + 8px);padding-left:28px;padding-top:calc(var(--cut) + 14px);text-align:left;align-items:flex-start}
   .card.c1 .ghost{right:auto;left:14px}
@@ -347,7 +348,7 @@ summary{cursor:pointer;padding:12px 16px;font-family:var(--display);font-weight:
   body:has(.duel) .duel{flex:1;min-height:180px}
   body:has(.duel) .card{min-height:0;padding-top:18px;padding-bottom:16px}
   body:has(.duel) .card .ghost{font-size:min(13rem,24vh)}
-  body:has(.duel) .portrait{--pt:20px}
+  body:has(.duel) .portrait,body:has(.duel) .pdot{--pt:20px}
   body:has(.duel) .controls{margin-top:0}
   body:has(.duel) .controls .btn{padding:8px 16px}
   body:has(.duel) .duel + .players,body:has(.duel) .outcome + .players{margin-top:0}
