@@ -219,13 +219,15 @@ body:has(.home) .wrap{max-width:1040px;width:100%}
 
 
 /* Ritratti */
-.portrait{position:absolute;top:54px;width:clamp(88px,9vw,112px);aspect-ratio:4/5;border:3px solid rgba(255,255,255,.92);background:rgba(255,255,255,.16);overflow:hidden;z-index:1;box-shadow:0 6px 18px rgba(0,0,0,.35)}
-.card.c0 .portrait{left:28px}
-.card.c1 .portrait{right:28px}
-.portrait .mono{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--display);font-weight:900;font-size:2.4rem;color:#fff;opacity:.85;letter-spacing:.02em}
-.portrait img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
-.duel.compact .portrait{top:44px;width:72px}
-.duel.compact .portrait .mono{font-size:1.7rem}
+.portrait{position:absolute;top:50px;bottom:var(--pb,168px);left:50%;transform:translateX(-50%);aspect-ratio:1/1;max-width:78%;border:3px solid rgba(255,255,255,.92);background:rgba(255,255,255,.16);overflow:hidden;z-index:1;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.portrait.tall{aspect-ratio:3/4}
+.card.c0 .portrait{left:calc(50% - var(--cut)/2)}
+.card.c1 .portrait{left:calc(50% + var(--cut)/2)}
+.portrait .mono{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--display);font-weight:900;font-size:4rem;color:#fff;opacity:.85;letter-spacing:.02em}
+.portrait img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+.portrait.tall img{object-position:top center}
+.duel.compact .portrait{top:42px;--pb:120px}
+.duel.compact .portrait .mono{font-size:2.4rem}
 
 /* Due giocatori */
 .vs{left:calc(50% - var(--cut) / 2 + 5px)}
@@ -300,9 +302,7 @@ summary{cursor:pointer;padding:12px 16px;font-family:var(--display);font-weight:
   .setup,.done{grid-template-columns:1fr;gap:24px}
   .duel{grid-template-columns:1fr}
   .card{min-height:310px}
-  .portrait{top:48px;width:76px}
-  .card.c0 .portrait{left:22px}
-  .card.c1 .portrait{right:22px;left:auto}
+  .portrait,.card.c0 .portrait,.card.c1 .portrait{top:48px;left:50%;--pb:130px;max-height:260px}
   .card.c0{clip-path:polygon(0 0,100% 0,100% calc(100% - var(--cut)),0 100%);padding-right:28px;padding-bottom:calc(var(--cut) + 14px)}
   .card.c1{clip-path:polygon(0 var(--cut),100% 0,100% 100%,0 100%);margin-left:0;margin-top:calc(var(--cut) * -1 + 8px);padding-left:28px;padding-top:calc(var(--cut) + 14px);text-align:left;align-items:flex-start}
   .card.c1 .ghost{right:auto;left:14px}
@@ -326,7 +326,7 @@ summary{cursor:pointer;padding:12px 16px;font-family:var(--display);font-weight:
   body:has(.duel) .duel{flex:1;min-height:180px}
   body:has(.duel) .card{min-height:0;padding-top:18px;padding-bottom:16px}
   body:has(.duel) .card .ghost{font-size:min(13rem,24vh)}
-  body:has(.duel) .portrait{top:44px;width:clamp(60px,9vh,104px)}
+  body:has(.duel) .portrait{top:44px}
   body:has(.duel) .controls{margin-top:0}
   body:has(.duel) .controls .btn{padding:8px 16px}
   body:has(.duel) .duel + .players,body:has(.duel) .outcome + .players{margin-top:0}
@@ -709,13 +709,14 @@ summary{cursor:pointer;padding:12px 16px;font-family:var(--display);font-weight:
 
   /* Ritratti: ricerca automatica su Wikipedia dal browser, con memoria locale. */
   var LOCAL_IMG = {};
-  /* Ritratti su Cloudflare R2: <R2_BASE>/<categoria>/<nome>.webp, minuscolo, senza accenti, con i trattini. Esempio: smash-or-pass/jill-valentine.webp */
+  /* Ritratti su Cloudflare R2. Nessun nome automatico: i file li scegli tu e qui sotto li associ alle card.
+     Formato: 'Titolo della card': 'nome-file.webp' (percorso relativo alla radice del bucket, anche con cartelle). */
   var R2_BASE = 'https://pub-8546ffe2599344cc89ad8fcb14d92887.r2.dev';
-  function slugR2(x){ return x.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''); }
+  var R2_IMG = {
+  };
   function r2url(id){
-    var g = GAMES[id];
-    if(!R2_BASE || /^Elemento \d/.test(g.title)) return '';
-    return R2_BASE + '/' + slugR2(g.sub || 'varie') + '/' + slugR2(g.title) + '.webp';
+    var f = R2_IMG[GAMES[id].title];
+    return (R2_BASE && f) ? R2_BASE + '/' + f.split('/').map(encodeURIComponent).join('/') : '';
   }
   var IMG_KEY = 'would-kraymes-img-v1', imgCache = {}, imgPending = {}, imgQueue = [], imgActive = 0, imgFails = 0;
   var SEARCH_ALIAS = {};
@@ -735,7 +736,7 @@ summary{cursor:pointer;padding:12px 16px;font-family:var(--display);font-weight:
     return (w.length === 1 ? w[0].slice(0, 1) : w[0].slice(0, 1) + w[w.length - 1].slice(0, 1)).toUpperCase();
   }
   function portrait(id){
-    return h('div', {class:'portrait', 'data-gid':String(id), 'aria-hidden':'true'}, [h('span', {class:'mono', text:initials(GAMES[id].title)})]);
+    return h('div', {class:'portrait' + (/^c[136]$/.test(GAMES[id].g) ? ' tall' : ''), 'data-gid':String(id), 'aria-hidden':'true'}, [h('span', {class:'mono', text:initials(GAMES[id].title)})]);
   }
   function applyImg(id){
     var url = LOCAL_IMG[imgKey(id)] || r2url(id) || imgCache[imgKey(id)];
