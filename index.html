@@ -193,6 +193,10 @@ body:has(.home) .wrap{max-width:1040px;width:100%}
 }
 .card.c0{background:var(--p2);clip-path:polygon(0 0,100% 0,calc(100% - var(--cut)) 100%,0 100%);padding-right:calc(var(--cut) + 28px)}
 .card.c1{background:var(--p1);clip-path:polygon(var(--cut) 0,100% 0,100% 100%,0 100%);margin-left:calc(var(--cut) * -1 + 10px);padding-left:calc(var(--cut) + 28px);text-align:right;align-items:flex-end}
+.card{--pt:56px;--pb:104px;--pf:.68;--po:.16}
+.card .gtitle{position:absolute;top:calc(var(--pt,56px)/2);left:calc(50% - var(--cut)/4);transform:translate(-50%,-50%);max-width:76%;z-index:2;text-align:center;font-size:clamp(.85rem,1.15vw,1.05rem);font-weight:600;line-height:1.15;letter-spacing:.01em;opacity:.95;overflow-wrap:anywhere;pointer-events:none}
+.card.c1 .gtitle{left:calc(50% + var(--cut)/4)}
+.card .ghost{display:none}
 .card:hover{transform:translateY(-4px)}
 .card:focus-visible{outline:4px solid #fff;outline-offset:-10px}
 .card .tag{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;opacity:.85}
@@ -219,10 +223,10 @@ body:has(.home) .wrap{max-width:1040px;width:100%}
 
 
 /* Ritratti */
-.portrait{position:absolute;top:calc(var(--pt,26px) + (100% - var(--pt,26px) - var(--pb,168px))*.08);height:calc((100% - var(--pt,26px) - var(--pb,168px))*.84);left:50%;transform:translateX(-50%);aspect-ratio:1/1;max-width:78%;border:3px solid rgba(255,255,255,.92);background:rgba(255,255,255,.16);overflow:hidden;z-index:1;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.portrait{position:absolute;top:calc(var(--pt,26px) + (100% - var(--pt,26px) - var(--pb,168px))*var(--po,.08));height:calc((100% - var(--pt,26px) - var(--pb,168px))*var(--pf,.84));left:50%;transform:translateX(-50%);aspect-ratio:1/1;max-width:78%;border:3px solid rgba(255,255,255,.92);background:rgba(255,255,255,.16);overflow:hidden;z-index:1;box-shadow:0 6px 18px rgba(0,0,0,.35)}
 .portrait.tall{aspect-ratio:3/4}
 .portrait.media{height:auto;width:74%;max-width:none;aspect-ratio:16/9;top:calc(var(--pt,26px) + (100% - var(--pt,26px) - var(--pb,168px))/2);transform:translate(-50%,-50%)}
-.portrait.media .mono,.portrait.has .mono{display:none}
+.portrait .mono{display:none!important}
 .portrait.wait .mono{visibility:hidden}
 .pdot{position:absolute;top:calc(var(--pt,26px) + (100% - var(--pt,26px) - var(--pb,168px))*.5 - 11px);z-index:4;width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.92);box-shadow:0 0 0 4px rgba(255,255,255,.28),0 2px 8px rgba(0,0,0,.4);cursor:pointer;outline:none}
 .pdot:hover,.pdot:focus-visible,.pdot.open{box-shadow:0 0 0 6px rgba(255,255,255,.4),0 2px 10px rgba(0,0,0,.5)}
@@ -235,14 +239,15 @@ body:has(.home) .wrap{max-width:1040px;width:100%}
 .card.c1 .portrait.media{width:calc(74% - (var(--cut) - 10px)*.74)}
 .card.c0 .portrait{left:calc(50% - var(--cut)/4)}
 .card.c1 .portrait{left:calc(50% + var(--cut)/4)}
-.portrait.desc{height:calc((100% - var(--pt,26px) - var(--pb,168px))*.84);width:68%;max-width:none;aspect-ratio:auto;display:flex;align-items:center;justify-content:center;padding:14px 16px;background:rgba(255,255,255,.12);overflow:hidden}
+.portrait.desc{height:calc((100% - var(--pt,26px) - var(--pb,168px))*var(--pf,.84));width:68%;max-width:none;aspect-ratio:auto;display:flex;align-items:center;justify-content:center;padding:14px 16px;background:rgba(255,255,255,.12);overflow:hidden}
 .portrait.desc p{margin:0;font-size:clamp(.95rem,1.4vw,1.3rem);line-height:1.45;text-align:center;color:#fff;font-weight:500;overflow-wrap:anywhere}
 .card.c1 .portrait.desc{width:calc(68% - (var(--cut) - 10px)*.68)}
 .portrait .mono{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--display);font-weight:900;font-size:4rem;color:#fff;opacity:.85;letter-spacing:.02em}
 .portrait iframe,.portrait video{position:absolute;inset:0;width:100%;height:100%;border:0;display:block;background:#000}
 .portrait img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block}
 .portrait.tall img{object-position:top center}
-.duel.compact .portrait,.duel.compact .pdot{--pt:22px;--pb:120px}
+.duel.compact .portrait,.duel.compact .pdot{--pb:120px}
+.duel.compact .card{--pt:48px;--pb:120px;--pf:.84;--po:.08}
 .duel.compact .portrait .mono{font-size:2.4rem}
 
 /* Due giocatori */
@@ -326,8 +331,10 @@ summary{cursor:pointer;padding:12px 16px;font-family:var(--display);font-weight:
   .setup,.done{grid-template-columns:1fr;gap:24px}
   .duel{grid-template-columns:1fr}
   .card{min-height:310px}
-  .portrait,.card.c0 .portrait,.card.c1 .portrait{--pt:24px;left:50%;--pb:130px}
-  .pdot{--pt:24px;--pb:130px}
+  .card{--pt:52px;--pb:130px;--pf:.84;--po:.08}
+  .card .gtitle,.card.c1 .gtitle{left:50%}
+  .portrait,.card.c0 .portrait,.card.c1 .portrait{left:50%;--pb:130px}
+  .pdot{--pb:130px}
   .portrait.desc,.card.c1 .portrait.desc{width:82%;padding:8px 10px}
   .portrait.desc p{font-size:.8rem;line-height:1.35}
   .card.c0{clip-path:polygon(0 0,100% 0,100% calc(100% - var(--cut)),0 100%);padding-right:28px;padding-bottom:calc(var(--cut) + 14px)}
@@ -353,7 +360,7 @@ summary{cursor:pointer;padding:12px 16px;font-family:var(--display);font-weight:
   body:has(.duel) .duel{flex:1;min-height:180px}
   body:has(.duel) .card{min-height:0;padding-top:18px;padding-bottom:16px}
   body:has(.duel) .card .ghost{font-size:min(13rem,24vh)}
-  body:has(.duel) .portrait,body:has(.duel) .pdot{--pt:20px}
+  body:has(.duel) .card{--pt:46px}
   body:has(.duel) .controls{margin-top:0}
   body:has(.duel) .controls .btn{padding:8px 16px}
   body:has(.duel) .duel + .players,body:has(.duel) .outcome + .players{margin-top:0}
@@ -370,6 +377,10 @@ summary{cursor:pointer;padding:12px 16px;font-family:var(--display);font-weight:
 @media (prefers-reduced-motion:reduce){
   .card,.bar i{transition:none}
   .card:hover{transform:none}
+}
+@media (max-width:760px){
+  body:has(.duel) .card.c1{--pt:92px}
+  body:has(.duel) .card.c1 .gtitle{top:calc(var(--pt) - 26px)}
 }
 </style>
 
@@ -955,11 +966,12 @@ summary{cursor:pointer;padding:12px 16px;font-family:var(--display);font-weight:
 
   function card(side, id){
     var g = GAMES[id], t = parts(id);
-    var name = h('div', {class:'name'}, [h('p',{class:'main', text:t[0]}), t[1] ? h('span',{class:'sub', text:t[1]}) : null]);
+    var name = h('div', {class:'name'}, [h('p',{class:'main', text:t[0]})]);
+    var gt = t[1] ? h('span', {class:'gtitle', text:t[1]}) : null;
     return h('button', {class:'card c'+side, type:'button', id:'card-'+side, 'aria-label':'Scegli ' + g.label, onclick:function(){ pick(side); }}, [
       portrait(id),
       popDot(id),
-      h('span',{class:'ghost','aria-hidden':'true', text:String(side+1)}),
+      gt,
       name,
     ]);
   }
@@ -1069,11 +1081,12 @@ summary{cursor:pointer;padding:12px 16px;font-family:var(--display);font-weight:
 
   function card2(side, id, badges, cls, pref){
     var g = GAMES[id], t = parts(id);
-    var name = h('div', {class:'name'}, [h('p',{class:'main', text:t[0]}), t[1] ? h('span',{class:'sub', text:t[1]}) : null]);
+    var name = h('div', {class:'name'}, [h('p',{class:'main', text:t[0]})]);
+    var gt = t[1] ? h('span', {class:'gtitle', text:t[1]}) : null;
     var kids = [
       portrait(id),
       popDot(id),
-      h('span',{class:'ghost','aria-hidden':'true', text:String(side+1)}),
+      gt,
       name
     ];
     if(badges && badges.length) kids.push(h('span',{class:'who', text:badges.join(' + ')}));
