@@ -222,7 +222,7 @@ body:has(.home) .wrap{max-width:1040px;width:100%}
 .portrait{position:absolute;top:calc(var(--pt,26px) + (100% - var(--pt,26px) - var(--pb,168px))*.08);height:calc((100% - var(--pt,26px) - var(--pb,168px))*.84);left:50%;transform:translateX(-50%);aspect-ratio:1/1;max-width:78%;border:3px solid rgba(255,255,255,.92);background:rgba(255,255,255,.16);overflow:hidden;z-index:1;box-shadow:0 6px 18px rgba(0,0,0,.35)}
 .portrait.tall{aspect-ratio:3/4}
 .portrait.media{height:auto;width:74%;max-width:none;aspect-ratio:16/9;top:calc(var(--pt,26px) + (100% - var(--pt,26px) - var(--pb,168px))/2);transform:translate(-50%,-50%)}
-.portrait.media .mono{display:none}
+.portrait.media .mono,.portrait.has .mono{display:none}
 .card.c1 .portrait.media{width:calc(74% - (var(--cut) - 10px)*.74)}
 .card.c0 .portrait{left:calc(50% - var(--cut)/4)}
 .card.c1 .portrait{left:calc(50% + var(--cut)/4)}
@@ -381,7 +381,7 @@ summary{cursor:pointer;padding:12px 16px;font-family:var(--display);font-weight:
   Object.keys(RAW).forEach(function(g){ RAW[g].forEach(function(t){ var p = t.split('|'); GAMES.push({title:p[0], sub:p[1], label:p[0] + ' (' + p[1] + ')', g:g}); }); });
   /* Smash or Pass: carte vere per sesso e stile (nome, gioco, file immagine su R2). Se un mazzo ha meno di 2 carte si usano i segnaposto. */
   GAMES.forEach(function(x){ if(x.g === 'c3') x.ph = true; });
-  var SMASH_DATA = {"f": {"r": [["Claire Redfield", "Resident Evil 2 Remake", "Claire Redfield RE2 Remake.png"], ["Claire Redfield", "Resident Evil Veronica", "Claire Redfield Veronica.png"], ["Ada Wong", "Resident Evil 2 Remake", "Ada Wong RE2 Remake.png"], ["Annette Birkin", "Resident Evil 2 Remake", "Annette Birkin RE2 Remake.png"], ["Jill Valentine", "Resident Evil 3 Remake", "Jill Valentine RE3 Remake.png"], ["Ada Wong", "Resident Evil 4 Remake", "Ada Wong RE4 Remake.png"], ["Ashley Graham", "Resident Evil 4 Remake", "Ashley Graham RE4 Remake.png"], ["Ingrid Hunnigan", "Resident Evil 4 Remake", "Ingrid Hunnigan RE4 Remake.png"], ["Lady (Alcina) Dimitrescu", "Resident Evil Village", "Alcina Dimitrescu RE8.png"], ["Bela Dimitrescu", "Resident Evil Village", "Bela Dimitrescu RE8.png"], ["Cassandra Dimitrescu", "Resident Evil Village", "Cassandra Dimitrescu RE8.png"], ["Daniela Dimitrescu", "Resident Evil Village", "Daniela Dimitrescu RE8.png"], ["Grace Ashcroft", "Resident Evil Requiem", "Grace Ashcroft RE9.png"], ["Alyssa Ashcroft", "Resident Evil Requiem", "Alyssa Ashcroft RE9.png"], ["Jill Valentine", "Resident Evil 5", "Jill Valentine RE5.png"], ["Sheva Alomar", "Resident Evil 5", "Sheva Alomar RE5.png"], ["Ada Wong", "Resident Evil 6", "Ada Wong RE6.png"]], "s": [], "g": []}, "m": {"r": [], "s": [], "g": []}};
+  var SMASH_DATA = {"f": {"r": [["Claire Redfield", "Resident Evil 2 Remake", "Claire Redfield RE2 Remake.png"], ["Claire Redfield", "Resident Evil Veronica", "Claire Redfield Veronica.png"], ["Ada Wong", "Resident Evil 2 Remake", "Ada Wong RE2 Remake.png"], ["Annette Birkin", "Resident Evil 2 Remake", "Annette Birkin RE2 Remake.png"], ["Jill Valentine", "Resident Evil 3 Remake", "Jill Valentine RE3 Remake.png"], ["Ada Wong", "Resident Evil 4 Remake", "Ada Wong RE4 Remake.png"], ["Ashley Graham", "Resident Evil 4 Remake", "Ashley Graham RE4 Remake.png"], ["Ingrid Hunnigan", "Resident Evil 4 Remake", "Ingrid Hunnigan RE4 Remake.png"], ["Lady (Alcina) Dimitrescu", "Resident Evil Village", "Alcina Dimitrescu RE8.png"], ["Bela Dimitrescu", "Resident Evil Village", "Bela Dimitrescu RE8.png"], ["Cassandra Dimitrescu", "Resident Evil Village", "Cassandra Dimitrescu RE8.png"], ["Daniela Dimitrescu", "Resident Evil Village", "Daniela Dimitrescu RE8.png"], ["Grace Ashcroft", "Resident Evil Requiem", "Grace Ashcroft RE9.png"], ["Alyssa Ashcroft", "Resident Evil Requiem", "Alyssa Ashcroft RE9.png"], ["Jill Valentine", "Resident Evil 5", "Jill Valentine RE5.png"], ["Sheva Alomar", "Resident Evil 5", "Sheva Alomar RE5.png"], ["Excella Gionne", "Resident Evil 5", "Excella Gionne RE5.png"], ["Ada Wong", "Resident Evil 6", "Ada Wong RE6.png"]], "s": [], "g": []}, "m": {"r": [], "s": [], "g": []}};
   Object.keys(SMASH_DATA).forEach(function(sx){ Object.keys(SMASH_DATA[sx]).forEach(function(st){ SMASH_DATA[sx][st].forEach(function(r){
     GAMES.push({title:r[0], sub:r[1], label:r[0] + ' (' + r[1] + ')', g:'c3', sx:sx, st:st, img:r[2]});
   }); }); });
@@ -780,6 +780,7 @@ summary{cursor:pointer;padding:12px 16px;font-family:var(--display);font-weight:
         el = document.createElement('img');
         el.alt = ''; el.referrerPolicy = 'no-referrer';
         el.onerror = function(){ if(el.parentNode) el.parentNode.removeChild(el); };
+        el.onload = function(){ p.classList.add('has'); };
         el.src = url;
       }
       if(mk.k !== 'img'){
