@@ -709,6 +709,14 @@ summary{cursor:pointer;padding:12px 16px;font-family:var(--display);font-weight:
 
   /* Ritratti: ricerca automatica su Wikipedia dal browser, con memoria locale. */
   var LOCAL_IMG = {};
+  /* Ritratti su Cloudflare R2: <R2_BASE>/<categoria>/<nome>.webp, minuscolo, senza accenti, con i trattini. Esempio: smash-or-pass/jill-valentine.webp */
+  var R2_BASE = 'https://pub-8546ffe2599344cc89ad8fcb14d92887.r2.dev';
+  function slugR2(x){ return x.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''); }
+  function r2url(id){
+    var g = GAMES[id];
+    if(!R2_BASE || /^Elemento \d/.test(g.title)) return '';
+    return R2_BASE + '/' + slugR2(g.sub || 'varie') + '/' + slugR2(g.title) + '.webp';
+  }
   var IMG_KEY = 'would-kraymes-img-v1', imgCache = {}, imgPending = {}, imgQueue = [], imgActive = 0, imgFails = 0;
   var SEARCH_ALIAS = {};
   try{ var rawImg = localStorage.getItem(IMG_KEY); if(rawImg){ var oi = JSON.parse(rawImg); if(oi && typeof oi === 'object') imgCache = oi; } }catch(e){}
@@ -730,13 +738,13 @@ summary{cursor:pointer;padding:12px 16px;font-family:var(--display);font-weight:
     return h('div', {class:'portrait', 'data-gid':String(id), 'aria-hidden':'true'}, [h('span', {class:'mono', text:initials(GAMES[id].title)})]);
   }
   function applyImg(id){
-    var url = LOCAL_IMG[imgKey(id)] || imgCache[imgKey(id)];
+    var url = LOCAL_IMG[imgKey(id)] || r2url(id) || imgCache[imgKey(id)];
     if(!url) return;
     Array.prototype.forEach.call(document.querySelectorAll('.portrait[data-gid="' + id + '"]'), function(p){
       if(p.querySelector('img')) return;
       var im = document.createElement('img');
       im.alt = ''; im.referrerPolicy = 'no-referrer';
-      im.onerror = function(){ if(im.parentNode) im.parentNode.removeChild(im); imgCache[imgKey(id)] = ''; saveImg(); };
+      im.onerror = function(){ if(im.parentNode) im.parentNode.removeChild(im); };
       im.src = url;
       p.appendChild(im);
     });
@@ -786,7 +794,7 @@ summary{cursor:pointer;padding:12px 16px;font-family:var(--display);font-weight:
   function hydrate(){
     Array.prototype.forEach.call(document.querySelectorAll('.portrait'), function(p){
       var id = +p.getAttribute('data-gid');
-      if(LOCAL_IMG[imgKey(id)] || imgCache[imgKey(id)] !== undefined) applyImg(id); else ensureImg(id);
+      applyImg(id); ensureImg(id);
     });
   }
   function prefetchNext(R){
