@@ -235,9 +235,9 @@ body:has(.home) .wrap{max-width:1040px;width:100%}
 .card.c1 .portrait.media{width:calc(74% - (var(--cut) - 10px)*.74)}
 .card.c0 .portrait{left:calc(50% - var(--cut)/4)}
 .card.c1 .portrait{left:calc(50% + var(--cut)/4)}
-.portrait.desc{height:calc((100% - var(--pt,26px) - var(--pb,168px))*.84);width:82%;max-width:none;aspect-ratio:auto;display:flex;align-items:center;justify-content:center;padding:14px 16px;background:rgba(255,255,255,.12);overflow:hidden}
+.portrait.desc{height:calc((100% - var(--pt,26px) - var(--pb,168px))*.84);width:68%;max-width:none;aspect-ratio:auto;display:flex;align-items:center;justify-content:center;padding:14px 16px;background:rgba(255,255,255,.12);overflow:hidden}
 .portrait.desc p{margin:0;font-size:clamp(.95rem,1.4vw,1.3rem);line-height:1.45;text-align:center;color:#fff;font-weight:500;overflow-wrap:anywhere}
-.card.c1 .portrait.desc{width:calc(82% - (var(--cut) - 10px)*.82)}
+.card.c1 .portrait.desc{width:calc(68% - (var(--cut) - 10px)*.68)}
 .portrait .mono{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--display);font-weight:900;font-size:4rem;color:#fff;opacity:.85;letter-spacing:.02em}
 .portrait iframe,.portrait video{position:absolute;inset:0;width:100%;height:100%;border:0;display:block;background:#000}
 .portrait img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block}
@@ -328,7 +328,7 @@ summary{cursor:pointer;padding:12px 16px;font-family:var(--display);font-weight:
   .card{min-height:310px}
   .portrait,.card.c0 .portrait,.card.c1 .portrait{--pt:24px;left:50%;--pb:130px}
   .pdot{--pt:24px;--pb:130px}
-  .portrait.desc{padding:8px 10px}
+  .portrait.desc,.card.c1 .portrait.desc{width:82%;padding:8px 10px}
   .portrait.desc p{font-size:.8rem;line-height:1.35}
   .card.c0{clip-path:polygon(0 0,100% 0,100% calc(100% - var(--cut)),0 100%);padding-right:28px;padding-bottom:calc(var(--cut) + 14px)}
   .card.c1{clip-path:polygon(0 var(--cut),100% 0,100% 100%,0 100%);margin-left:0;margin-top:calc(var(--cut) * -1 + 8px);padding-left:28px;padding-top:calc(var(--cut) + 14px);text-align:left;align-items:flex-start}
