@@ -199,7 +199,7 @@ body:has(.home) .wrap{max-width:1040px;width:100%}
 .card .ghost{position:absolute;bottom:-28px;font-family:var(--display);font-weight:900;font-size:13rem;line-height:1;opacity:.14;pointer-events:none}
 .card.c0 .ghost{left:14px}
 .card.c1 .ghost{right:14px}
-.card .name{position:relative}
+.card .name{position:relative;margin-top:auto}
 .card .main{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(1.7rem,4vw,3.2rem);line-height:.92;letter-spacing:.01em;margin:0;overflow-wrap:anywhere;text-wrap:balance}
 .card .sub{display:block;margin-top:10px;font-size:1.05rem;font-weight:500;opacity:.92;overflow-wrap:anywhere}
 .card .hint{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;opacity:.8;position:relative}
@@ -219,14 +219,17 @@ body:has(.home) .wrap{max-width:1040px;width:100%}
 
 
 /* Ritratti */
-.portrait{position:absolute;top:50px;bottom:var(--pb,168px);left:50%;transform:translateX(-50%);aspect-ratio:1/1;max-width:78%;border:3px solid rgba(255,255,255,.92);background:rgba(255,255,255,.16);overflow:hidden;z-index:1;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.portrait{position:absolute;top:calc(var(--pt,26px) + (100% - var(--pt,26px) - var(--pb,168px))*.08);height:calc((100% - var(--pt,26px) - var(--pb,168px))*.84);left:50%;transform:translateX(-50%);aspect-ratio:1/1;max-width:78%;border:3px solid rgba(255,255,255,.92);background:rgba(255,255,255,.16);overflow:hidden;z-index:1;box-shadow:0 6px 18px rgba(0,0,0,.35)}
 .portrait.tall{aspect-ratio:3/4}
+.portrait.media{height:auto;width:74%;max-width:none;aspect-ratio:16/9;top:calc(var(--pt,26px) + (100% - var(--pt,26px) - var(--pb,168px))/2);transform:translate(-50%,-50%)}
+.portrait.media .mono{display:none}
 .card.c0 .portrait{left:calc(50% - var(--cut)/2)}
 .card.c1 .portrait{left:calc(50% + var(--cut)/2)}
 .portrait .mono{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--display);font-weight:900;font-size:4rem;color:#fff;opacity:.85;letter-spacing:.02em}
+.portrait iframe,.portrait video{position:absolute;inset:0;width:100%;height:100%;border:0;display:block;background:#000}
 .portrait img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block}
 .portrait.tall img{object-position:top center}
-.duel.compact .portrait{top:42px;--pb:120px}
+.duel.compact .portrait{--pt:22px;--pb:120px}
 .duel.compact .portrait .mono{font-size:2.4rem}
 
 /* Due giocatori */
@@ -302,7 +305,7 @@ summary{cursor:pointer;padding:12px 16px;font-family:var(--display);font-weight:
   .setup,.done{grid-template-columns:1fr;gap:24px}
   .duel{grid-template-columns:1fr}
   .card{min-height:310px}
-  .portrait,.card.c0 .portrait,.card.c1 .portrait{top:48px;left:50%;--pb:130px;max-height:260px}
+  .portrait,.card.c0 .portrait,.card.c1 .portrait{--pt:24px;left:50%;--pb:130px}
   .card.c0{clip-path:polygon(0 0,100% 0,100% calc(100% - var(--cut)),0 100%);padding-right:28px;padding-bottom:calc(var(--cut) + 14px)}
   .card.c1{clip-path:polygon(0 var(--cut),100% 0,100% 100%,0 100%);margin-left:0;margin-top:calc(var(--cut) * -1 + 8px);padding-left:28px;padding-top:calc(var(--cut) + 14px);text-align:left;align-items:flex-start}
   .card.c1 .ghost{right:auto;left:14px}
@@ -326,7 +329,7 @@ summary{cursor:pointer;padding:12px 16px;font-family:var(--display);font-weight:
   body:has(.duel) .duel{flex:1;min-height:180px}
   body:has(.duel) .card{min-height:0;padding-top:18px;padding-bottom:16px}
   body:has(.duel) .card .ghost{font-size:min(13rem,24vh)}
-  body:has(.duel) .portrait{top:44px}
+  body:has(.duel) .portrait{--pt:20px}
   body:has(.duel) .controls{margin-top:0}
   body:has(.duel) .controls .btn{padding:8px 16px}
   body:has(.duel) .duel + .players,body:has(.duel) .outcome + .players{margin-top:0}
@@ -710,13 +713,16 @@ summary{cursor:pointer;padding:12px 16px;font-family:var(--display);font-weight:
   /* Ritratti: ricerca automatica su Wikipedia dal browser, con memoria locale. */
   var LOCAL_IMG = {};
   /* Ritratti su Cloudflare R2. Nessun nome automatico: i file li scegli tu e qui sotto li associ alle card.
-     Formato: 'Titolo della card': 'nome-file.webp' (percorso relativo alla radice del bucket, anche con cartelle). */
+     Formato: 'Titolo della card': 'nome-file.webp' (percorso nel bucket, anche con cartelle; vale anche .mp4/.webm).
+     Per un video di YouTube basta il link intero: 'Titolo': 'https://www.youtube.com/watch?v=XXXXXXXXXXX'. */
   var R2_BASE = 'https://pub-8546ffe2599344cc89ad8fcb14d92887.r2.dev';
   var R2_IMG = {
   };
   function r2url(id){
     var f = R2_IMG[GAMES[id].title];
-    return (R2_BASE && f) ? R2_BASE + '/' + f.split('/').map(encodeURIComponent).join('/') : '';
+    if(!f) return '';
+    if(/^(https?:\/\/|yt:)/.test(f)) return f;
+    return R2_BASE ? R2_BASE + '/' + f.split('/').map(encodeURIComponent).join('/') : '';
   }
   var IMG_KEY = 'would-kraymes-img-v1', imgCache = {}, imgPending = {}, imgQueue = [], imgActive = 0, imgFails = 0;
   var SEARCH_ALIAS = {};
@@ -738,16 +744,40 @@ summary{cursor:pointer;padding:12px 16px;font-family:var(--display);font-weight:
   function portrait(id){
     return h('div', {class:'portrait' + (/^c[136]$/.test(GAMES[id].g) ? ' tall' : ''), 'data-gid':String(id), 'aria-hidden':'true'}, [h('span', {class:'mono', text:initials(GAMES[id].title)})]);
   }
+  function mediaKind(url){
+    var m = url.match(/(?:youtu\.be\/|youtube(?:-nocookie)?\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/|live\/))([\w-]{11})/);
+    if(m) return {k:'yt', id:m[1]};
+    var y = url.match(/^yt:([\w-]{11})$/);
+    if(y) return {k:'yt', id:y[1]};
+    if(/\.(mp4|webm|mov|m4v)(\?|#|$)/i.test(url)) return {k:'video'};
+    return {k:'img'};
+  }
   function applyImg(id){
     var url = LOCAL_IMG[imgKey(id)] || r2url(id) || imgCache[imgKey(id)];
     if(!url) return;
+    var mk = mediaKind(url);
     Array.prototype.forEach.call(document.querySelectorAll('.portrait[data-gid="' + id + '"]'), function(p){
-      if(p.querySelector('img')) return;
-      var im = document.createElement('img');
-      im.alt = ''; im.referrerPolicy = 'no-referrer';
-      im.onerror = function(){ if(im.parentNode) im.parentNode.removeChild(im); };
-      im.src = url;
-      p.appendChild(im);
+      if(p.querySelector('img,iframe,video')) return;
+      var el;
+      if(mk.k === 'yt'){
+        el = document.createElement('iframe');
+        el.src = 'https://www.youtube-nocookie.com/embed/' + mk.id + '?rel=0&playsinline=1';
+        el.allow = 'accelerometer; autoplay; encrypted-media; picture-in-picture; fullscreen';
+        el.allowFullscreen = true; el.title = GAMES[id].title; el.referrerPolicy = 'strict-origin-when-cross-origin';
+      }else if(mk.k === 'video'){
+        el = document.createElement('video');
+        el.src = url; el.controls = true; el.playsInline = true; el.preload = 'metadata';
+      }else{
+        el = document.createElement('img');
+        el.alt = ''; el.referrerPolicy = 'no-referrer';
+        el.onerror = function(){ if(el.parentNode) el.parentNode.removeChild(el); };
+        el.src = url;
+      }
+      if(mk.k !== 'img'){
+        p.classList.add('media');
+        ['click','keydown'].forEach(function(ev){ el.addEventListener(ev, function(e){ e.stopPropagation(); }); });
+      }
+      p.appendChild(el);
     });
   }
   function lookupImg(id){
@@ -810,7 +840,6 @@ summary{cursor:pointer;padding:12px 16px;font-family:var(--display);font-weight:
     var g = GAMES[id], t = parts(id);
     var name = h('div', {class:'name'}, [h('p',{class:'main', text:t[0]}), t[1] ? h('span',{class:'sub', text:t[1]}) : null]);
     return h('button', {class:'card c'+side, type:'button', id:'card-'+side, 'aria-label':'Scegli ' + g.label, onclick:function(){ pick(side); }}, [
-      h('span',{class:'tag', text:GROUPS[g.g]}),
       portrait(id),
       h('span',{class:'ghost','aria-hidden':'true', text:String(side+1)}),
       name,
@@ -924,7 +953,6 @@ summary{cursor:pointer;padding:12px 16px;font-family:var(--display);font-weight:
     var g = GAMES[id], t = parts(id);
     var name = h('div', {class:'name'}, [h('p',{class:'main', text:t[0]}), t[1] ? h('span',{class:'sub', text:t[1]}) : null]);
     var kids = [
-      h('span',{class:'tag', text:GROUPS[g.g]}),
       portrait(id),
       h('span',{class:'ghost','aria-hidden':'true', text:String(side+1)}),
       name
