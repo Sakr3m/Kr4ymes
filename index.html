@@ -379,7 +379,15 @@ summary{cursor:pointer;padding:12px 16px;font-family:var(--display);font-weight:
   };
   var GAMES = [];
   Object.keys(RAW).forEach(function(g){ RAW[g].forEach(function(t){ var p = t.split('|'); GAMES.push({title:p[0], sub:p[1], label:p[0] + ' (' + p[1] + ')', g:g}); }); });
-  function countOf(g){ return GAMES.filter(function(x){return x.g===g;}).length; }
+  /* Smash or Pass: carte vere per sesso e stile (nome, gioco, file immagine su R2). Se un mazzo ha meno di 2 carte si usano i segnaposto. */
+  GAMES.forEach(function(x){ if(x.g === 'c3') x.ph = true; });
+  var SMASH_DATA = {"f": {"r": [["Claire Redfield", "Resident Evil 2 Remake", "Claire Redfield RE2 Remake.png"], ["Claire Redfield", "Resident Evil Veronica", "Claire Redfield Veronica.png"], ["Ada Wong", "Resident Evil 2 Remake", "Ada Wong RE2 Remake.png"], ["Annette Birkin", "Resident Evil 2 Remake", "Annette Birkin RE2 Remake.png"], ["Jill Valentine", "Resident Evil 3 Remake", "Jill Valentine RE3 Remake.png"], ["Ada Wong", "Resident Evil 4 Remake", "Ada Wong RE4 Remake.png"], ["Ashley Graham", "Resident Evil 4 Remake", "Ashley Graham RE4 Remake.png"], ["Ingrid Hunnigan", "Resident Evil 4 Remake", "Ingrid Hunnigan RE4 Remake.png"], ["Lady (Alcina) Dimitrescu", "Resident Evil Village", "Alcina Dimitrescu RE8.png"], ["Bela Dimitrescu", "Resident Evil Village", "Bela Dimitrescu RE8.png"], ["Cassandra Dimitrescu", "Resident Evil Village", "Cassandra Dimitrescu RE8.png"], ["Daniela Dimitrescu", "Resident Evil Village", "Daniela Dimitrescu RE8.png"], ["Grace Ashcroft", "Resident Evil Requiem", "Grace Ashcroft RE9.png"], ["Alyssa Ashcroft", "Resident Evil Requiem", "Alyssa Ashcroft RE9.png"], ["Jill Valentine", "Resident Evil 5", "Jill Valentine RE5.png"], ["Sheva Alomar", "Resident Evil 5", "Sheva Alomar RE5.png"], ["Ada Wong", "Resident Evil 6", "Ada Wong RE6.png"]], "s": [], "g": []}, "m": {"r": [], "s": [], "g": []}};
+  Object.keys(SMASH_DATA).forEach(function(sx){ Object.keys(SMASH_DATA[sx]).forEach(function(st){ SMASH_DATA[sx][st].forEach(function(r){
+    GAMES.push({title:r[0], sub:r[1], label:r[0] + ' (' + r[1] + ')', g:'c3', sx:sx, st:st, img:r[2]});
+  }); }); });
+  function smashReal(){ return GAMES.filter(function(x){ return x.g === 'c3' && !x.ph && x.sx === S.smash && x.st === S.style; }).length >= 2; }
+  function inDeck(x){ if(x.g !== 'c3') return true; return smashReal() ? (!x.ph && x.sx === S.smash && x.st === S.style) : !!x.ph; }
+  function countOf(g){ return GAMES.filter(function(x){ return x.g === g && inDeck(x); }).length; }
 
   var QK = 'kraymes-quiz-v1', LEVELS = [['facili','Facile'],['medi','Medio'],['difficili','Difficile'],['impossibili','Impossibile'],['crescenti','Crescente']];
   var QGAMES = ['Clair Obscur: Expedition 33','Deltarune','Ender Lilies','Final Fantasy VII','Hollow Knight','MIO: Memories in Orbit','Nine Sols','Ori and the Blind Forest','Pokémon Bianco/Nero','Spyro: Reignited Trilogy'];
@@ -485,7 +493,7 @@ summary{cursor:pointer;padding:12px 16px;font-family:var(--display);font-weight:
 
   function selectedIds(){
     var out = [];
-    GAMES.forEach(function(g,i){ if(S.groups[g.g]) out.push(i); });
+    GAMES.forEach(function(g,i){ if(S.groups[g.g] && inDeck(g)) out.push(i); });
     return out;
   }
   function newSeed(){ return Math.floor(Math.random()*2147483647) + 1; }
@@ -720,7 +728,7 @@ summary{cursor:pointer;padding:12px 16px;font-family:var(--display);font-weight:
   var R2_IMG = {
   };
   function r2url(id){
-    var f = R2_IMG[GAMES[id].title];
+    var f = GAMES[id].img || R2_IMG[GAMES[id].title];
     if(!f) return '';
     if(/^(https?:\/\/|yt:)/.test(f)) return f;
     return R2_BASE ? R2_BASE + '/' + f.split('/').map(encodeURIComponent).join('/') : '';
