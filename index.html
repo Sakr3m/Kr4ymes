@@ -282,6 +282,14 @@ body:has(.home) .wrap{max-width:1040px;width:100%}
 /* Done */
 .done{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:32px;align-items:start}
 .champ{background:var(--fg);color:var(--bg);padding:32px 32px 28px;min-width:0}
+.champ.withimg{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:center}
+.champ .ctext{min-width:0}
+.champ.withimg .main{font-size:clamp(2rem,4.2vw,4rem)}
+.champ .portrait,.champ .portrait.media{position:relative;top:auto;left:auto;bottom:auto;transform:none;height:auto;width:clamp(110px,15vw,210px);max-width:none;aspect-ratio:1/1;border-color:var(--bg);background:rgba(128,128,128,.2);box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.champ .portrait.tall{aspect-ratio:3/4}
+.champ .portrait.media{aspect-ratio:16/9;width:clamp(200px,30vw,380px)}
+.col2 .champ .portrait,.col2 .champ .portrait.tall{width:clamp(90px,12vw,150px)}
+.champ .portrait .mono{color:var(--bg)}
 .champ .tag{font-family:var(--mono);font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;opacity:.75}
 .champ .main{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(2.6rem,8vw,5.5rem);line-height:.9;margin:10px 0 0;overflow-wrap:anywhere;text-wrap:balance}
 .champ .sub{display:block;font-size:1.2rem;font-weight:500;margin-top:10px;opacity:.85}
@@ -381,7 +389,7 @@ summary{cursor:pointer;padding:12px 16px;font-family:var(--display);font-weight:
   Object.keys(RAW).forEach(function(g){ RAW[g].forEach(function(t){ var p = t.split('|'); GAMES.push({title:p[0], sub:p[1], label:p[0] + ' (' + p[1] + ')', g:g}); }); });
   /* Smash or Pass: carte vere per sesso e stile (nome, gioco, file immagine su R2). Se un mazzo ha meno di 2 carte si usano i segnaposto. */
   GAMES.forEach(function(x){ if(x.g === 'c3') x.ph = true; });
-  var SMASH_DATA = {"f": {"r": [["Claire Redfield", "Resident Evil 2 Remake", "Claire Redfield RE2 Remake.png"], ["Claire Redfield", "Resident Evil Veronica", "Claire Redfield Veronica.png"], ["Ada Wong", "Resident Evil 2 Remake", "Ada Wong RE2 Remake.png"], ["Annette Birkin", "Resident Evil 2 Remake", "Annette Birkin RE2 Remake.png"], ["Jill Valentine", "Resident Evil 3 Remake", "Jill Valentine RE3 Remake.png"], ["Ada Wong", "Resident Evil 4 Remake", "Ada Wong RE4 Remake.png"], ["Ashley Graham", "Resident Evil 4 Remake", "Ashley Graham RE4 Remake.png"], ["Ingrid Hunnigan", "Resident Evil 4 Remake", "Ingrid Hunnigan RE4 Remake.png"], ["Lady (Alcina) Dimitrescu", "Resident Evil Village", "Alcina Dimitrescu RE8.png"], ["Bela Dimitrescu", "Resident Evil Village", "Bela Dimitrescu RE8.png"], ["Cassandra Dimitrescu", "Resident Evil Village", "Cassandra Dimitrescu RE8.png"], ["Daniela Dimitrescu", "Resident Evil Village", "Daniela Dimitrescu RE8.png"], ["Grace Ashcroft", "Resident Evil Requiem", "Grace Ashcroft RE9.png"], ["Alyssa Ashcroft", "Resident Evil Requiem", "Alyssa Ashcroft RE9.png"], ["Jill Valentine", "Resident Evil 5", "Jill Valentine RE5.png"], ["Sheva Alomar", "Resident Evil 5", "Sheva Alomar RE5.png"], ["Excella Gionne", "Resident Evil 5", "Excella Gionne RE5.png"], ["Ada Wong", "Resident Evil 6", "Ada Wong RE6.png"]], "s": [], "g": []}, "m": {"r": [], "s": [], "g": []}};
+  var SMASH_DATA = {"f": {"r": [["Claire Redfield", "Resident Evil 2 Remake", "Claire Redfield RE2 Remake.png"], ["Claire Redfield", "Resident Evil Veronica", "Claire Redfield Veronica.png"], ["Ada Wong", "Resident Evil 2 Remake", "Ada Wong RE2 Remake.png"], ["Annette Birkin", "Resident Evil 2 Remake", "Annette Birkin RE2 Remake.png"], ["Jill Valentine", "Resident Evil 3 Remake", "Jill Valentine RE3 Remake.png"], ["Ada Wong", "Resident Evil 4 Remake", "Ada Wong RE4 Remake.png"], ["Ashley Graham", "Resident Evil 4 Remake", "Ashley Graham RE4 Remake.png"], ["Ingrid Hunnigan", "Resident Evil 4 Remake", "Ingrid Hunnigan RE4 Remake.png"], ["Lady (Alcina) Dimitrescu", "Resident Evil Village", "Alcina Dimitrescu RE8.png"], ["Bela Dimitrescu", "Resident Evil Village", "Bela Dimitrescu RE8.png"], ["Cassandra Dimitrescu", "Resident Evil Village", "Cassandra Dimitrescu RE8.png"], ["Daniela Dimitrescu", "Resident Evil Village", "Daniela Dimitrescu RE8.png"], ["Grace Ashcroft", "Resident Evil Requiem", "Grace Ashcroft RE9.png"], ["Alyssa Ashcroft", "Resident Evil Requiem", "Alyssa Ashcroft RE9.png"], ["Jill Valentine", "Resident Evil 5", "Jill Valentine RE5.png"], ["Sheva Alomar", "Resident Evil 5", "Sheva Alomar RE5.png"], ["Excella Gionne", "Resident Evil 5", "Excella Gionne RE5.png"], ["Ada Wong / Carla Radames", "Resident Evil 6", "Ada Wong RE6.png"]], "s": [], "g": []}, "m": {"r": [], "s": [], "g": []}};
   Object.keys(SMASH_DATA).forEach(function(sx){ Object.keys(SMASH_DATA[sx]).forEach(function(st){ SMASH_DATA[sx][st].forEach(function(r){
     GAMES.push({title:r[0], sub:r[1], label:r[0] + ' (' + r[1] + ')', g:'c3', sx:sx, st:st, img:r[2]});
   }); }); });
@@ -1088,13 +1096,19 @@ summary{cursor:pointer;padding:12px 16px;font-family:var(--display);font-weight:
     var roundOf = {}; R.P[pl].elim.forEach(function(e){ roundOf[e.id] = e.round; });
     return order.map(function(id, i){ return { id:id, pos:i+1, round:roundOf[id] }; });
   }
+  function hasImg(id){ return !!(LOCAL_IMG[imgKey(id)] || r2url(id) || imgCache[imgKey(id)]); }
+  /* Riquadro del vincitore: testo a sinistra e, se la carta ha un'immagine, il ritratto a destra. */
+  function champBox(id, kids){
+    if(!hasImg(id)) return h('div', {class:'champ'}, kids);
+    return h('div', {class:'champ withimg'}, [h('div', {class:'ctext'}, kids), portrait(id)]);
+  }
   function renderDone2(stage, R){
     var cols = h('div', {class:'done2'}), texts = [];
     R.P.forEach(function(_, pl){
       var rows = ranking2(R, pl), ch = R.champ[pl], first, champ;
       if(ch !== null){
         var t = parts_(ch);
-        champ = h('div', {class:'champ'}, [h('div', {class:'tag', text:'Vincitore'}), h('p', {class:'main', text:t[0]}), t[1] ? h('span', {class:'sub', text:t[1]}) : null]);
+        champ = champBox(ch, [h('div', {class:'tag', text:'Vincitore'}), h('p', {class:'main', text:t[0]}), t[1] ? h('span', {class:'sub', text:t[1]}) : null]);
         first = 1;
       } else {
         champ = h('div', {class:'champ'}, [h('div', {class:'tag', text:'Esito'}), h('p', {class:'main', text:'Nessun vincitore'})]);
@@ -1113,17 +1127,11 @@ summary{cursor:pointer;padding:12px 16px;font-family:var(--display);font-weight:
     if(R.shared > 0) line += ' Nei ' + R.shared + ' duelli che avete visto uguali siete andati d’accordo ' + R.agree + ' volte (' + Math.round(R.agree / R.shared * 100) + '%).';
     stage.appendChild(h('p', {class:'outcome', text:line}));
     var msgEl = h('span', {class:'msg', id:'msg', text:msg});
-    var copy = h('button', {class:'btn', type:'button', id:'btn-copy', text:'Copia le top 10', onclick:function(){
-      var txt = texts.join('\n\n');
-      var ok = function(){ msg = 'Classifiche copiate.'; document.getElementById('msg').textContent = msg; };
-      var ko = function(){ msg = 'Copia non riuscita, seleziona il testo a mano.'; document.getElementById('msg').textContent = msg; };
-      try{ navigator.clipboard.writeText(txt).then(ok, ko); }catch(e){ ko(); }
-    }});
     stage.appendChild(h('div', {class:'controls'}, [
       h('button', {class:'btn primary', type:'button', id:'btn-again', text:'Rigioca', onclick:reshuffle}),
       h('button', {class:'btn', type:'button', id:'btn-back', text:'Cambia selezione', onclick:toSetup}),
       h('button', {class:'btn ghost', type:'button', id:'btn-undo2', text:'Annulla ultima scelta', onclick:undo}),
-      copy, msgEl
+      msgEl
     ]));
   }
   function renderLists2(R){
@@ -1203,7 +1211,7 @@ summary{cursor:pointer;padding:12px 16px;font-family:var(--display);font-weight:
     var rows = ranking(R), champ, firstRank;
     if(R.champion !== null){
       var t = parts(R.champion);
-      champ = h('div', {class:'champ'}, [
+      champ = champBox(R.champion, [
         h('div', {class:'tag', text:'Vincitore su ' + S.ids.length + ' elementi'}),
         h('p', {class:'main', text:t[0]}),
         t[1] ? h('span', {class:'sub', text:t[1]}) : null
@@ -1224,12 +1232,6 @@ summary{cursor:pointer;padding:12px 16px;font-family:var(--display);font-weight:
     });
     var rank = h('div', {class:'rank'}, [h('h2', {text:'Podio e dintorni'}), top]);
     var msgEl = h('span', {class:'msg', id:'msg', text:msg});
-    var copy = h('button', {class:'btn', type:'button', id:'btn-copy', text:'Copia la top 10', onclick:function(){
-      var txt = rankText(rows);
-      var ok = function(){ msg = 'Top 10 copiata.'; document.getElementById('msg').textContent = msg; };
-      var ko = function(){ msg = 'Copia non riuscita, seleziona il testo a mano.'; document.getElementById('msg').textContent = msg; };
-      try{ navigator.clipboard.writeText(txt).then(ok, ko); }catch(e){ ko(); }
-    }});
     stage.appendChild(h('div', {class:'done'}, [champ, rank]));
     if(S.mode === 3 && S.vlog.length){
       var agree3 = S.vlog.filter(function(v){ return v.every(function(x){ return x === v[0]; }); }).length;
@@ -1239,7 +1241,7 @@ summary{cursor:pointer;padding:12px 16px;font-family:var(--display);font-weight:
       h('button', {class:'btn primary', type:'button', id:'btn-again', text:'Rigioca', onclick:reshuffle}),
       h('button', {class:'btn', type:'button', id:'btn-back', text:'Cambia selezione', onclick:toSetup}),
       h('button', {class:'btn ghost', type:'button', id:'btn-undo2', text:'Annulla ultima scelta', onclick:undo}),
-      copy, msgEl
+      msgEl
     ]));
   }
 
