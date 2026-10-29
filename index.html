@@ -405,15 +405,14 @@ summary{cursor:pointer;padding:12px 16px;font-family:var(--display);font-weight:
 
 <script>
 (function(){
-  var GROUPS = { c5:'Miglior Videogioco', c1:'Protagonisti', c6:'Antagonisti Iconici', c3:'Smash or Pass', c4:'Ranking Bossfight', c2:'Citazioni Famose', c8:'Classi', c7:'Evocazioni e Abilità', c9:'Poteri e Meccaniche' };
-  var DESC = { c5:'Il migliore del suo genere', c1:'Eroi e protagonisti dei videogiochi', c6:'I cattivi che non si dimenticano', c3:'Smash o pass, senza pensarci', c4:'Gli scontri che restano in testa', c2:'Le frasi che tutti ricordano', c8:'Le classi di tutti i videogiochi', c7:'Magie, materia, Limit Break ed evocazioni', c9:'Doppio salto, parry' };
+  var GROUPS = { c5:'Miglior Videogioco', c1:'Protagonisti', c6:'Antagonisti Iconici', c3:'Smash or Pass', c4:'Ranking Bossfight', c8:'Classi', c7:'Evocazioni e Abilità', c9:'Poteri e Meccaniche' };
+  var DESC = { c5:'Il migliore del suo genere', c1:'Eroi e protagonisti dei videogiochi', c6:'I cattivi che non si dimenticano', c3:'Smash o pass, senza pensarci', c4:'Gli scontri che restano in testa', c8:'Le classi di tutti i videogiochi', c7:'Magie, materia, Limit Break ed evocazioni', c9:'Doppio salto, parry' };
   var RAW = {
     c5:['Elemento 5.1|Miglior Videogioco', 'Elemento 5.2|Miglior Videogioco', 'Elemento 5.3|Miglior Videogioco', 'Elemento 5.4|Miglior Videogioco', 'Elemento 5.5|Miglior Videogioco', 'Elemento 5.6|Miglior Videogioco', 'Elemento 5.7|Miglior Videogioco', 'Elemento 5.8|Miglior Videogioco', 'Elemento 5.9|Miglior Videogioco', 'Elemento 5.10|Miglior Videogioco', 'Elemento 5.11|Miglior Videogioco', 'Elemento 5.12|Miglior Videogioco', 'Elemento 5.13|Miglior Videogioco', 'Elemento 5.14|Miglior Videogioco', 'Elemento 5.15|Miglior Videogioco', 'Elemento 5.16|Miglior Videogioco'],
     c1:['Elemento 1.1|Protagonisti', 'Elemento 1.2|Protagonisti', 'Elemento 1.3|Protagonisti', 'Elemento 1.4|Protagonisti', 'Elemento 1.5|Protagonisti', 'Elemento 1.6|Protagonisti', 'Elemento 1.7|Protagonisti', 'Elemento 1.8|Protagonisti', 'Elemento 1.9|Protagonisti', 'Elemento 1.10|Protagonisti', 'Elemento 1.11|Protagonisti', 'Elemento 1.12|Protagonisti', 'Elemento 1.13|Protagonisti', 'Elemento 1.14|Protagonisti', 'Elemento 1.15|Protagonisti', 'Elemento 1.16|Protagonisti'],
     c6:['Elemento 6.1|Antagonisti Iconici', 'Elemento 6.2|Antagonisti Iconici', 'Elemento 6.3|Antagonisti Iconici', 'Elemento 6.4|Antagonisti Iconici', 'Elemento 6.5|Antagonisti Iconici', 'Elemento 6.6|Antagonisti Iconici', 'Elemento 6.7|Antagonisti Iconici', 'Elemento 6.8|Antagonisti Iconici', 'Elemento 6.9|Antagonisti Iconici', 'Elemento 6.10|Antagonisti Iconici', 'Elemento 6.11|Antagonisti Iconici', 'Elemento 6.12|Antagonisti Iconici', 'Elemento 6.13|Antagonisti Iconici', 'Elemento 6.14|Antagonisti Iconici', 'Elemento 6.15|Antagonisti Iconici', 'Elemento 6.16|Antagonisti Iconici'],
     c3:['Elemento 3.1|Smash or Pass', 'Elemento 3.2|Smash or Pass', 'Elemento 3.3|Smash or Pass', 'Elemento 3.4|Smash or Pass', 'Elemento 3.5|Smash or Pass', 'Elemento 3.6|Smash or Pass', 'Elemento 3.7|Smash or Pass', 'Elemento 3.8|Smash or Pass', 'Elemento 3.9|Smash or Pass', 'Elemento 3.10|Smash or Pass', 'Elemento 3.11|Smash or Pass', 'Elemento 3.12|Smash or Pass', 'Elemento 3.13|Smash or Pass', 'Elemento 3.14|Smash or Pass', 'Elemento 3.15|Smash or Pass', 'Elemento 3.16|Smash or Pass'],
     c4:['Elemento 4.1|Ranking Bossfight', 'Elemento 4.2|Ranking Bossfight', 'Elemento 4.3|Ranking Bossfight', 'Elemento 4.4|Ranking Bossfight', 'Elemento 4.5|Ranking Bossfight', 'Elemento 4.6|Ranking Bossfight', 'Elemento 4.7|Ranking Bossfight', 'Elemento 4.8|Ranking Bossfight', 'Elemento 4.9|Ranking Bossfight', 'Elemento 4.10|Ranking Bossfight', 'Elemento 4.11|Ranking Bossfight', 'Elemento 4.12|Ranking Bossfight', 'Elemento 4.13|Ranking Bossfight', 'Elemento 4.14|Ranking Bossfight', 'Elemento 4.15|Ranking Bossfight', 'Elemento 4.16|Ranking Bossfight'],
-    c2:['Elemento 2.1|Citazioni Famose', 'Elemento 2.2|Citazioni Famose', 'Elemento 2.3|Citazioni Famose', 'Elemento 2.4|Citazioni Famose', 'Elemento 2.5|Citazioni Famose', 'Elemento 2.6|Citazioni Famose', 'Elemento 2.7|Citazioni Famose', 'Elemento 2.8|Citazioni Famose', 'Elemento 2.9|Citazioni Famose', 'Elemento 2.10|Citazioni Famose', 'Elemento 2.11|Citazioni Famose', 'Elemento 2.12|Citazioni Famose', 'Elemento 2.13|Citazioni Famose', 'Elemento 2.14|Citazioni Famose', 'Elemento 2.15|Citazioni Famose', 'Elemento 2.16|Citazioni Famose'],
     c8:[],
     c7:['Elemento 7.1|Evocazioni e Abilità', 'Elemento 7.2|Evocazioni e Abilità', 'Elemento 7.3|Evocazioni e Abilità', 'Elemento 7.4|Evocazioni e Abilità', 'Elemento 7.5|Evocazioni e Abilità', 'Elemento 7.6|Evocazioni e Abilità', 'Elemento 7.7|Evocazioni e Abilità', 'Elemento 7.8|Evocazioni e Abilità', 'Elemento 7.9|Evocazioni e Abilità', 'Elemento 7.10|Evocazioni e Abilità', 'Elemento 7.11|Evocazioni e Abilità', 'Elemento 7.12|Evocazioni e Abilità', 'Elemento 7.13|Evocazioni e Abilità', 'Elemento 7.14|Evocazioni e Abilità', 'Elemento 7.15|Evocazioni e Abilità', 'Elemento 7.16|Evocazioni e Abilità', 'Elemento 7.17|Evocazioni e Abilità', 'Elemento 7.18|Evocazioni e Abilità', 'Elemento 7.19|Evocazioni e Abilità', 'Elemento 7.20|Evocazioni e Abilità', 'Elemento 7.21|Evocazioni e Abilità', 'Elemento 7.22|Evocazioni e Abilità', 'Elemento 7.23|Evocazioni e Abilità', 'Elemento 7.24|Evocazioni e Abilità', 'Elemento 7.25|Evocazioni e Abilità', 'Elemento 7.26|Evocazioni e Abilità', 'Elemento 7.27|Evocazioni e Abilità', 'Elemento 7.28|Evocazioni e Abilità', 'Elemento 7.29|Evocazioni e Abilità', 'Elemento 7.30|Evocazioni e Abilità', 'Elemento 7.31|Evocazioni e Abilità', 'Elemento 7.32|Evocazioni e Abilità'],
     c9:[]
@@ -453,10 +452,11 @@ summary{cursor:pointer;padding:12px 16px;font-family:var(--display);font-weight:
   var BOSSES = ['Scegli il titolo','Clair Obscur: Expedition 33','Ender Lilies','Final Fantasy VII','Hollow Knight','MIO: Memories in Orbit','Nine Sols'];
   var ABILS = ['Scegli il titolo','Final Fantasy VII'];
   var GENRES = ['Tutti i generi','Avventura','Azione','Corse','GDR','Horror','Metroidvania','Picchiaduro','Platform','Puzzle','Sparatutto','Sportivo','Strategia'];
-  var OPT = { protag:['m','f','g'], quote:['corte','perle','entrambi'], smash:['f','m'], style:['r','s','g'] };
+  var OPT = { protag:['m','f','g'], smash:['f','m'], style:['r','s','g'] };
   var screen = null; /* 'hub' | 'quiz' | null (gioco Would Kraymes Rather) */
   var KEY = 'would-kraymes-rather-v1';
-  var S = { phase:'setup', groups:{c1:true,c2:true,c3:true,c4:true,c5:true,c6:true,c7:true,c8:true,c9:true}, ids:[], seed:1, choices:[], mode:1, vlog:[], players:2, rule3:'all', chat:false, protag:'g', quote:'entrambi', smash:'f', boss:'', abil:'', genre:'', style:'r' };
+  var DATAV = 2; /* versione dei dati: se cambia l'elenco delle carte, una partita salvata in corso non e' piu' valida */
+  var S = { dv:DATAV, phase:'setup', groups:{c1:true,c3:true,c4:true,c5:true,c6:true,c7:true,c8:true,c9:true}, ids:[], seed:1, choices:[], mode:1, vlog:[], players:2, rule3:'all', chat:false, protag:'g', smash:'f', boss:'', abil:'', genre:'', style:'r' };
   var locked = false, armed = null, msg = '', votes = [null,null], revealing = false, pending = null, revealToken = 0, revealGroup = 0;
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -466,11 +466,12 @@ summary{cursor:pointer;padding:12px 16px;font-family:var(--display);font-weight:
       var raw = localStorage.getItem(KEY); if(!raw) return;
       var o = JSON.parse(raw);
       if(!o || (o.phase!=='setup' && o.phase!=='play')) return;
+      if(o.phase==='play' && o.dv !== DATAV){ o.phase = 'setup'; o.ids = []; o.choices = []; o.vlog = []; }
       if(o.phase==='play'){
         if(!Array.isArray(o.ids) || o.ids.length<2 || !Array.isArray(o.choices)) return;
         for(var i=0;i<o.ids.length;i++){ if(typeof o.ids[i]!=='number' || !GAMES[o.ids[i]]) return; }
       }
-      S.phase=o.phase; S.groups=(function(g){ var r={}; Object.keys(GROUPS).forEach(function(k){ r[k]=g&&k in g?!!g[k]:true; }); return r; })(o.groups); S.ids=o.ids||[]; S.seed=o.seed|0; S.choices=o.choices||[]; S.mode=(o.mode===2||o.mode===3)?o.mode:1; S.players=(o.players===3||o.players===4)?o.players:2; S.chat=!!o.chat; S.protag=OPT.protag.indexOf(o.protag)>=0?o.protag:'g'; S.quote=OPT.quote.indexOf(o.quote)>=0?o.quote:'entrambi'; S.smash=OPT.smash.indexOf(o.smash)>=0?o.smash:'f'; S.style=OPT.style.indexOf(o.style)>=0?o.style:'r'; S.boss=BOSSES.indexOf(o.boss)>=1?o.boss:''; S.genre=GENRES.indexOf(o.genre)>=1?o.genre:''; S.abil=ABILS.indexOf(o.abil)>=1?o.abil:''; S.rule3=(o.rule3==='maj')?'maj':'all'; S.vlog=Array.isArray(o.vlog)?o.vlog:[];
+      S.phase=o.phase; S.groups=(function(g){ var r={}; Object.keys(GROUPS).forEach(function(k){ r[k]=g&&k in g?!!g[k]:true; }); return r; })(o.groups); S.ids=o.ids||[]; S.seed=o.seed|0; S.choices=o.choices||[]; S.mode=(o.mode===2||o.mode===3)?o.mode:1; S.players=(o.players===3||o.players===4)?o.players:2; S.chat=!!o.chat; S.protag=OPT.protag.indexOf(o.protag)>=0?o.protag:'g'; S.smash=OPT.smash.indexOf(o.smash)>=0?o.smash:'f'; S.style=OPT.style.indexOf(o.style)>=0?o.style:'r'; S.boss=BOSSES.indexOf(o.boss)>=1?o.boss:''; S.genre=GENRES.indexOf(o.genre)>=1?o.genre:''; S.abil=ABILS.indexOf(o.abil)>=1?o.abil:''; S.rule3=(o.rule3==='maj')?'maj':'all'; S.vlog=Array.isArray(o.vlog)?o.vlog:[];
       if(S.mode===2 && o.phase==='play'){ var okLog = S.vlog.every(function(e){ return Array.isArray(e) && e.length===S.players && e.every(function(v){ return v===null || v===0 || v===1 || v===2; }); }); if(!okLog) S.vlog = []; }
       if(S.mode===3 && S.vlog.length !== S.choices.length) S.vlog = [];
     }catch(e){}
@@ -732,7 +733,6 @@ summary{cursor:pointer;padding:12px 16px;font-family:var(--display);font-weight:
     Object.keys(GROUPS).forEach(function(g, i){
       var ctl = null;
       if(g === 'c1') ctl = segCtl('protag', [['m','Maschi'],['f','Femmine'],['g','Generali']]);
-      else if(g === 'c2') ctl = segCtl('quote', [['corte','Corte'],['perle','Perle di saggezza'],['entrambi','Entrambe']]);
       else if(g === 'c3') ctl = h('span', {class:'cstack'}, [segCtl('smash', [['f','Femmine'],['m','Maschi']]), segCtl('style', [['r','Realistico'],['s','Semi-realistico'],['g','Gacha']])]);
       else if(g === 'c4') ctl = catSelect('sel-boss', BOSSES, S.boss, 'Titolo dei boss fight', true);
       else if(g === 'c5') ctl = catSelect('sel-genre', GENRES, S.genre, 'Genere');
